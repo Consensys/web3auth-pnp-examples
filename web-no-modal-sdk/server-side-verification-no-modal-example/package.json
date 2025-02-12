@@ -17,12 +17,12 @@
     "@web3auth/no-modal": "^9.5.1",
     "ethers": "^6.6.2",
     "jose": "^5.2.4",
-    "next": "^14.2.3",
+    "next": "^14.2.21",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-toastify": "^10.0.5",
-    "viem": "^2.9.15",
-    "vite": "^5.3.5",
+    "viem": "^2.23.2",
+    "vite": "^5.4.14",
     "web3": "^4.8.0"
   },
   "devDependencies": {

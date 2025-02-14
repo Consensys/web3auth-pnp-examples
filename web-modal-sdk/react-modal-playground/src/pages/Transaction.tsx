@@ -16,7 +16,7 @@ function Transaction() {
 
   const [message, setMessage] = useState("Welcome to Web3Auth");
   const [address, setAddress] = useState("0xeaA8Af602b2eDE45922818AE5f9f7FdE50cFa1A8");
-  const [amount, setAmount] = useState("0.01");
+  const [amount, setAmount] = useState("0.0001");
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("signMessage");
 

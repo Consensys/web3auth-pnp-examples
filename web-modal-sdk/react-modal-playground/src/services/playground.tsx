@@ -41,8 +41,8 @@ export const PlaygroundContext = createContext<IPlaygroundContext>({
   chainId: null,
   playgroundConsole: "",
   chainList: chain,
-  chainListOptionSelected: "ethereum",
-  connectedChain: chain.ethereum,
+  chainListOptionSelected: "sepolia",
+  connectedChain: chain.sepolia,
   getUserInfo: async () => null,
   getPublicKey: async () => "",
   getAddress: async () => "",
@@ -51,13 +51,13 @@ export const PlaygroundContext = createContext<IPlaygroundContext>({
   sendTransaction: async () => "",
   getPrivateKey: async () => "",
   getChainId: async () => "",
-  deployContract: async () => {},
+  deployContract: async () => { },
   readContract: async () => "",
   writeContract: async () => "",
   getIdToken: async () => "",
-  verifyServerSide: async () => {},
+  verifyServerSide: async () => { },
   switchChain: async () => null,
-  updateConnectedChain: () => {},
+  updateConnectedChain: () => { },
 });
 
 interface IPlaygroundProps {
@@ -77,7 +77,7 @@ export const Playground = ({ children }: IPlaygroundProps) => {
   const [chainListOptionSelected, setChainListOptionSelected] = useState("ethereum");
   const [chainId, setChainId] = useState<any>(null);
   const [playgroundConsole, setPlaygroundConsole] = useState<string>("");
-  const [connectedChain, setConnectedChain] = useState<CustomChainConfig>(chain.ethereum);
+  const [connectedChain, setConnectedChain] = useState<CustomChainConfig>(chain.sepolia);
   const uiConsole = (...args: unknown[]) => {
     setPlaygroundConsole(`${JSON.stringify(args || {}, null, 2)}\n\n\n\n${playgroundConsole}`);
     console.log(...args);
@@ -88,19 +88,23 @@ export const Playground = ({ children }: IPlaygroundProps) => {
 
   const setNewWalletProvider = useCallback(
     async (web3authProvider: IProvider) => {
-      setWalletProvider(getWalletProvider(web3authProvider, uiConsole));
-      setAddress(await walletProvider?.getAddress());
-      setBalance(await walletProvider?.getBalance());
-      setChainId(await walletProvider?.getChainId());
+      const newWalletProvider = getWalletProvider(web3authProvider, uiConsole);
+      setWalletProvider(newWalletProvider);
+
+      setAddress(await newWalletProvider.getAddress());
+      setBalance(await newWalletProvider.getBalance());
+      setChainId(await newWalletProvider.getChainId());
     },
     [chainId, address, balance]
   );
 
   useEffect(() => {
     if (status === ADAPTER_STATUS.READY) {
-      connect();
+      // connect();
     } else if (status === ADAPTER_STATUS.CONNECTED) {
-      setNewWalletProvider(provider);
+      if (provider) {
+        setNewWalletProvider(provider);
+      }
     }
   }, [web3Auth, status, provider, connect, setNewWalletProvider]);
 

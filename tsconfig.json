@@ -26,6 +26,8 @@
     "**/*.ts",
     "**/*.js",
     "**/src/*.tsx",
-    "**/*.tsx", "wagmi-connector/rainbowkit-react-modal-with-plugin-example/src/App.tsx",
+    "**/*.tsx",
+    "wagmi-connector/rainbowkit-react-modal-with-plugin-example/src/App.tsx",
+    "web-modal-sdk/react-modal-playground/vite.config.mts",
   ],
 }

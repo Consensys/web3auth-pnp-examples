@@ -9,7 +9,7 @@ import { usePlayground } from "../services/playground";
 
 const Sidebar = () => {
   const { connectedChain } = usePlayground();
-  const { showCheckout, showWalletConnectScanner, showWalletUI } = useWalletServicesPlugin();
+  const { showCheckout, showWalletConnectScanner, showWalletUI, isPluginConnected } = useWalletServicesPlugin();
   const { web3Auth, isConnected } = useWeb3Auth();
 
   const navigate = useNavigate();
@@ -61,23 +61,23 @@ const Sidebar = () => {
         <nav className="flex flex-col mt-6">
           {location.pathname === "/" ? activePage("Main Page", 1) : linktoGo("Main Page", goToHome, 1)}
           {location.pathname === "/transaction" ? activePage("Signing/ Transaction", 2) : linktoGo("Signing/ Transaction", goToTransaction, 2)}
-          {location.pathname === "/contract"
+          {/* {location.pathname === "/contract"
             ? activePage("Smart Contract Interactions", 3)
-            : linktoGo("Smart Contract Interactions", goToContract, 3)}
-          {location.pathname === "/server-side-verification"
+            : linktoGo("Smart Contract Interactions", goToContract, 3)} */}
+          {/* {location.pathname === "/server-side-verification"
             ? activePage("Server Side Verification", 4)
             : linktoGo("Server Side Verification", goToServerSideVerification, 4)}
           {isConnected && web3Auth.connectedAdapterName === WALLET_ADAPTERS.AUTH && (
             <>
-              {linktoGo("WalletConnect Scanner", showWalletConnectScanner, 6)}
-              {linktoGo("Wallet UI", showWalletUI, 7)}
+              {isPluginConnected && linktoGo("WalletConnect Scanner", showWalletConnectScanner, 6)}
+              {isPluginConnected && linktoGo("Wallet UI", showWalletUI, 7)}
               {connectedChain.chainId === "0xaa36a7" || connectedChain.chainId === "0x13882"
                 ? linktoGo("Faucet Link", goToFaucet, 8)
                 : linktoGo("Fiat On Ramp", showCheckout, 8)}
               {linktoGo("Explorer Link", goToExplorer, 9)}
               {linktoGo("Source Code", goToSounceCode, 10)}
             </>
-          )}
+          )} */}
         </nav>
       </div>
       <UserProfile />

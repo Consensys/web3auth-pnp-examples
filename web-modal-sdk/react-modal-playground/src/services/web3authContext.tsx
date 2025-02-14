@@ -5,18 +5,35 @@ import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { Web3AuthOptions } from "@web3auth/modal";
 import { BUTTON_POSITION, CONFIRMATION_STRATEGY, WalletServicesPlugin } from "@web3auth/wallet-services-plugin";
 
+import {
+  AccountAbstractionProvider,
+  SafeSmartAccount,
+} from "@web3auth/account-abstraction-provider";
 import { chain } from "../config/chainConfig";
 
 const clientId = import.meta.env.VITE_WEB3AUTH_CLIENT_ID || '';
 const pimlicoAPIKey = import.meta.env.VITE_PIMLICO_API_KEY || '';
 
 const chainConfig = chain.sepolia;
-const chainId = parseInt(chainConfig.chainId, 10);
+const chainId = parseInt(chainConfig.chainId, 16);
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: {
     chainConfig,
   },
+});
+
+const accountAbstractionProvider = new AccountAbstractionProvider({
+  config: {
+    chainConfig,
+    bundlerConfig: {
+      url: `https://api.pimlico.io/v2/${chainId}/rpc?apikey=${pimlicoAPIKey}`,
+    },
+    smartAccountInit: new SafeSmartAccount(),
+    paymasterConfig: {
+      url: `https://api.pimlico.io/v2/${chainId}/rpc?apikey=${pimlicoAPIKey}`,
+    }
+  }
 });
 
 const web3AuthOptions: Web3AuthOptions = {
@@ -27,6 +44,8 @@ const web3AuthOptions: Web3AuthOptions = {
   },
   web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET,
   privateKeyProvider,
+  accountAbstractionProvider,
+  useAAWithExternalWallet: true,
 };
 
 const authAdapter = new AuthAdapter({

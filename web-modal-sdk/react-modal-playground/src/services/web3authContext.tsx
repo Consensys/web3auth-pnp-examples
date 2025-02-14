@@ -87,20 +87,20 @@ const authAdapter = new AuthAdapter({
   },
 });
 
-const walletServicesPlugin = new WalletServicesPlugin({
-  wsEmbedOpts: {},
-  walletInitOptions: {
-    whiteLabel: { showWidgetButton: true, buttonPosition: BUTTON_POSITION.BOTTOM_RIGHT },
-    confirmationStrategy: CONFIRMATION_STRATEGY.MODAL,
-  },
-});
+// const walletServicesPlugin = new WalletServicesPlugin({
+//   wsEmbedOpts: {},
+//   walletInitOptions: {
+//     whiteLabel: { showWidgetButton: true, buttonPosition: BUTTON_POSITION.BOTTOM_RIGHT },
+//     confirmationStrategy: CONFIRMATION_STRATEGY.MODAL,
+//   },
+// });
 
 const adapters = await getDefaultExternalAdapters({ options: web3AuthOptions });
 
 const web3AuthContextConfig = {
   web3AuthOptions,
   adapters: [authAdapter, ...adapters],
-  plugins: [walletServicesPlugin],
+  // plugins: [walletServicesPlugin],
 };
 
 export default web3AuthContextConfig;

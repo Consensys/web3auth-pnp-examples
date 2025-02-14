@@ -23,9 +23,9 @@ function Contract() {
   const [tab, setTab] = useState("deploy");
 
   const LoaderButton = ({ ...props }) => (
-    <button {...props}>
+    <button {...props} disabled={loading}>
       {loading && (
-        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
           <path
             className="opacity-75"
@@ -137,9 +137,9 @@ function Contract() {
                 <Form formDetails={formDetailsRead}>
                   <LoaderButton
                     className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3  text-black bg-primary hover:bg-secondary"
-                    onClick={() => {
+                    onClick={async () => {
                       setLoading(true);
-                      readContract(address, abi);
+                      await readContract(address, abi);
                       setLoading(false);
                     }}
                   >
@@ -151,9 +151,9 @@ function Contract() {
                 <Form formDetails={formDetailsWrite}>
                   <LoaderButton
                     className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3  text-black bg-primary hover:bg-secondary"
-                    onClick={() => {
+                    onClick={async () => {
                       setLoading(true);
-                      writeContract(address, abi, contractValue);
+                      await writeContract(address, abi, contractValue);
                       setLoading(false);
                     }}
                   >

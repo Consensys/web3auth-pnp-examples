@@ -20,7 +20,7 @@ export const chain: {
     tickerName: "Ethereum",
     ticker: "ETH",
     rpcTarget: "https://rpc.ankr.com/eth_sepolia",
-    blockExplorerUrl: "https://sepolia.etherscan.io",
+    blockExplorerUrl: "https://sepolia.etherscan.io/address/",
     logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
   },
   // lineaSepolia: {
@@ -98,13 +98,11 @@ export const chain: {
   //   chainNamespace: CHAIN_NAMESPACES.EIP155,
   //   chainId: "0xA4B1", // hex of 42161
   //   rpcTarget: "https://rpc.ankr.com/arbitrum",
-  //   // Avoid using public rpcTarget in production.
-  //   // Use services like Infura, Quicknode etc
   //   displayName: "Arbitrum Mainnet",
-  //   blockExplorerUrl: "https://arbiscan.io",
+  //   blockExplorerUrl: "https://arbiscan.io/address/",
   //   ticker: "AETH",
   //   tickerName: "AETH",
-  //   logo: "https://web3auth.io/images/web3authlog.png",
+  //   logo: "https://icons.llamao.fi/icons/chains/rsz_arbitrum.jpg",
   // },
   // optimism: {
   //   chainNamespace: CHAIN_NAMESPACES.EIP155,

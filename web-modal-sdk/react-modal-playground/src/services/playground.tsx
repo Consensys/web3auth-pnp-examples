@@ -74,7 +74,7 @@ export const Playground = ({ children }: IPlaygroundProps) => {
   const [address, setAddress] = useState<string | null>(null);
   const [balance, setBalance] = useState<string | null>(null);
   const [chainList, setChainDetails] = useState(chain);
-  const [chainListOptionSelected, setChainListOptionSelected] = useState("ethereum");
+  const [chainListOptionSelected, setChainListOptionSelected] = useState("sepolia");
   const [chainId, setChainId] = useState<any>(null);
   const [playgroundConsole, setPlaygroundConsole] = useState<string>("");
   const [connectedChain, setConnectedChain] = useState<CustomChainConfig>(chain.sepolia);
@@ -107,6 +107,17 @@ export const Playground = ({ children }: IPlaygroundProps) => {
       }
     }
   }, [web3Auth, status, provider, connect, setNewWalletProvider]);
+
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      if (web3Auth && provider && walletProvider) {
+        setBalance(await walletProvider.getBalance());
+      }
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [web3Auth, provider, walletProvider]);
 
   const getUserInfo = async () => {
     if (!web3Auth) {

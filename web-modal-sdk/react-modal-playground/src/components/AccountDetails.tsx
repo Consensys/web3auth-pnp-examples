@@ -32,10 +32,10 @@ function AccountDetails({ children }: AccountDetailsProps) {
     setChainDetails(chainList[selectedChain]);
   }, [selectedChain, address]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log(chainDetails);
-  };
+  // const handleSubmit = async (event: React.FormEvent) => {
+  //   event.preventDefault();
+  //   console.log(chainDetails);
+  // };
 
   return (
     <div className="py-16 w-11/12 px-4 sm:px-6 lg:px-8 z-0">
@@ -99,11 +99,11 @@ function AccountDetails({ children }: AccountDetailsProps) {
             </div>
           </div>
         </div>
-        {isConnected && web3Auth.connectedAdapterName === WALLET_ADAPTERS.AUTH && (
-          <button className="w-full p-4 text-sm border-gray-200 rounded-lg shadow-sm" onClick={getUserInfo}>
+        {/* {isConnected && web3Auth.connectedAdapterName === WALLET_ADAPTERS.AUTH && (
+          <button className="w-full p-4 text-sm border-gray-200 rounded-lg shadow-sm text-white" onClick={getUserInfo}>
             View User Info in Console
           </button>
-        )}
+        )} */}
       </div>
       <div className="p-8 mt-6 mb-0 rounded-lg bg-dark flex flex-row justify-between flex-wrap">
         <div className="p-2 flex flex-col space-y-4">
@@ -115,11 +115,11 @@ function AccountDetails({ children }: AccountDetailsProps) {
         </div>
         <div className="p-2 flex flex-col space-y-4 text-white">
           <span className="text-sm">Chain ID</span>
-          <span className="text-2xl font-bold">{connectedChain?.chainId || ""}</span>
+          <span className="text-2xl font-bold">{parseInt(connectedChain?.chainId, 16) || ""}</span>
         </div>
       </div>
 
-      <div className="p-8 mt-6 rounded-lg bg-dark flex flex-col space-y-4 text-white">
+      {/* <div className="p-8 mt-6 rounded-lg bg-dark flex flex-col space-y-4 text-white">
         <h2 className="text-lg font-bold">Use Custom Chain Config</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {Object.entries(chainDetails).map(
@@ -158,7 +158,7 @@ function AccountDetails({ children }: AccountDetailsProps) {
             </button>
           )}
         </form>
-      </div>
+      </div> */}
 
       {children}
     </div>

@@ -20,7 +20,7 @@ function HomePage() {
             <Sidebar />
             <div className="w-full h-full flex flex-1 flex-col items-center justify-flex-start overflow-y-auto">
               <AccountDetails />
-              <Console />
+              {/* <Console /> */}
               {/*     <SourceCode /> */}
             </div>
           </>

@@ -14,16 +14,16 @@ function Transaction() {
   const { getSignature, sendTransaction } = usePlayground();
   const { isConnected } = useWeb3Auth();
 
-  const [message, setMessage] = useState("Welcome to Web3Auth");
-  const [address, setAddress] = useState("0xeaA8Af602b2eDE45922818AE5f9f7FdE50cFa1A8");
+  const [message, setMessage] = useState("Welcome to WLFI");
+  const [address, setAddress] = useState("0xe9962bF08A23C5Bf7967bd59CB35C95E24fB6ce0");
   const [amount, setAmount] = useState("0.0001");
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState("signMessage");
+  const [tab, setTab] = useState("sendTransaction");
 
   const LoaderButton = ({ ...props }) => (
-    <button {...props}>
+    <button {...props} disabled={loading}>
       {loading && (
-        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
           <path
             className="opacity-75"
@@ -38,7 +38,7 @@ function Transaction() {
 
   const formDetailsSignMessage = [
     {
-      label: "message",
+      label: "Message",
       input: message as string,
       onChange: setMessage,
     },
@@ -46,12 +46,12 @@ function Transaction() {
 
   const formDetailsDestinationAddress = [
     {
-      label: "destination address",
+      label: "Destination address",
       input: address as string,
       onChange: setAddress,
     },
     {
-      label: "amount",
+      label: `Amount`,
       input: amount as string,
       onChange: setAmount,
     },
@@ -59,14 +59,14 @@ function Transaction() {
 
   const TabData = [
     {
-      tabName: "Sign Message",
-      onClick: () => setTab("signMessage"),
-      active: tab === "signMessage",
-    },
-    {
       tabName: "Send Transaction",
       onClick: () => setTab("sendTransaction"),
       active: tab === "sendTransaction",
+    },
+    {
+      tabName: "Sign Message",
+      onClick: () => setTab("signMessage"),
+      active: tab === "signMessage",
     },
   ];
 
@@ -74,41 +74,42 @@ function Transaction() {
     <main className="flex flex-col h-screen z-0">
       <Header />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
         {isConnected ? (
-          <div className=" w-full h-full flex flex-1 flex-col items-center justify-flex-start overflow-y-auto">
-            <h1 className="w-11/12 px-4 pt-16 pb-8 sm:px-6 lg:px-8 text-2xl font-bold text-center sm:text-3xl text-white">Signing/ Transaction</h1>
-            <Tabs tabData={TabData} />
-            {tab === "signMessage" ? (
-              <Form formDetails={formDetailsSignMessage}>
-                <LoaderButton
-                  className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3 text-black bg-primary hover:bg-secondary"
-                  onClick={async () => {
-                    setLoading(true);
-                    await getSignature(message);
-                    setLoading(false);
-                  }}
-                >
-                  Sign Message
-                </LoaderButton>
-              </Form>
-            ) : (
-              <Form formDetails={formDetailsDestinationAddress}>
-                <LoaderButton
-                  className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3 text-black bg-primary hover:bg-secondary"
-                  onClick={async () => {
-                    setLoading(true);
-                    await sendTransaction(amount, address);
-                    setLoading(false);
-                  }}
-                >
-                  Send Transaction
-                </LoaderButton>
-              </Form>
-            )}
-            <Console />
-            {/*             <SourceCode /> */}
-          </div>
+          <>
+            <Sidebar />
+            <div className=" w-full h-full flex flex-1 flex-col items-center justify-flex-start overflow-y-auto">
+              <h1 className="w-11/12 px-4 pt-16 pb-8 sm:px-6 lg:px-8 text-2xl font-bold text-center sm:text-3xl text-white">Signing/ Transaction</h1>
+              <Tabs tabData={TabData} />
+              {tab === "signMessage" ? (
+                <Form formDetails={formDetailsSignMessage}>
+                  <LoaderButton
+                    className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3 text-black bg-primary hover:bg-secondary"
+                    onClick={async () => {
+                      setLoading(true);
+                      await getSignature(message);
+                      setLoading(false);
+                    }}
+                  >
+                    Sign Message
+                  </LoaderButton>
+                </Form>
+              ) : (
+                <Form formDetails={formDetailsDestinationAddress}>
+                  <LoaderButton
+                    className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3 text-black bg-primary hover:bg-secondary"
+                    onClick={async () => {
+                      setLoading(true);
+                      await sendTransaction(amount, address);
+                      setLoading(false);
+                    }}
+                  >
+                    Send Transaction
+                  </LoaderButton>
+                </Form>
+              )}
+              <Console />
+            </div>
+          </>
         ) : (
           <NotConnectedPage />
         )}

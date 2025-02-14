@@ -53,21 +53,21 @@ const Header = () => {
               </div>
             </div>
           </div>
-          <div className="flex-col flex-row mt-0 items-center lg:flex hidden">
+          <div className="flex-col flex-row mt-0 items-center lg:flex">
             <DisconnectWeb3AuthButton />
           </div>
-          {isConnected && (
+          {/* {isConnected && (
             <div className="flex-col flex-row mt-0 items-center flex lg:hidden">
               <Hamburger toggled={isOpen} toggle={setOpen} size={25} direction="right" />
             </div>
-          )}
+          )} */}
         </div>
       </div>
-      {isConnected && (
+      {/* {isConnected && (
         <div className={`ease-in-out duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}>
           <Drawer isOpen={isOpen} setOpen={setOpen} />
         </div>
-      )}
+      )} */}
     </header>
   );
 };

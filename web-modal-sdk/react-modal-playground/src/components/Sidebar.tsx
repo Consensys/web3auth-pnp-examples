@@ -28,9 +28,7 @@ const Sidebar = () => {
   // }
 
   const goToExplorer = useCallback(() => {
-    console.log("connectedChain", connectedChain);
-
-    window.open(`${connectedChain?.blockExplorerUrl}${address}`);
+    window.open(`${connectedChain?.blockExplorerUrl}${address}#internaltx`);
   }, [connectedChain, address]);
 
   // function goToSounceCode() {

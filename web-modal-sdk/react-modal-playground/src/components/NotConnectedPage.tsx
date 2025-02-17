@@ -1,15 +1,13 @@
-import React from "react";
-
-import { usePlayground } from "../services/playground";
-import ConnectWeb3AuthButton from "./ConnectWeb3AuthButton";
+import { useAccount } from "wagmi";
+import ConnectButton from "./ConnectButton";
 
 const NotConnectedPage = () => {
-  const { isLoading } = usePlayground();
+  const { isConnecting } = useAccount();
 
   return (
     <div className="w-full h-full flex flex-1 flex-col bg-black items-center justify-center p-4">
       <div className="max-w-md mx-auto mt-4 text-center text-gray-500">
-        {isLoading ? (
+        {isConnecting ? (
           <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path
@@ -19,7 +17,7 @@ const NotConnectedPage = () => {
             ></path>
           </svg>
         ) : (
-          <ConnectWeb3AuthButton />
+          <ConnectButton />
         )}
       </div>
     </div>

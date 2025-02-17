@@ -1,10 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-
-import { usePlayground } from "../services/playground";
 import { useCallback } from "react";
+import { useAccount } from "wagmi";
 
 const Sidebar = () => {
-  const { connectedChain, address } = usePlayground();
+  const { chain, address } = useAccount();
 
   const navigate = useNavigate();
   function goToHome() {
@@ -13,13 +12,10 @@ const Sidebar = () => {
   function goToTransaction() {
     navigate("/transaction");
   }
-  function goToContract() {
-    navigate("/contract");
-  }
 
   const goToExplorer = useCallback(() => {
-    window.open(`${connectedChain?.blockExplorerUrl}${address}#internaltx`);
-  }, [connectedChain, address]);
+    window.open(`${chain.blockExplorers.default.url}/address/${address}#internaltx`);
+  }, [chain, address]);
 
   const location = useLocation();
   function linktoGo(label: string, path: any, id: number) {
@@ -44,10 +40,6 @@ const Sidebar = () => {
         <nav className="flex flex-col mt-6">
           {location.pathname === "/" ? activePage("My Account", 1) : linktoGo("My Account", goToHome, 1)}
           {location.pathname === "/transaction" ? activePage("Signing/ Transaction", 2) : linktoGo("Signing/ Transaction", goToTransaction, 2)}
-
-          {/* {location.pathname === "/contract"
-            ? activePage("Smart Contract Interactions", 3)
-            : linktoGo("Smart Contract Interactions", goToContract, 3)} */}
 
           {linktoGo("Verify on Etherscan", goToExplorer, 9)}
         </nav>

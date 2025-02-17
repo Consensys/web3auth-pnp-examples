@@ -1,5 +1,3 @@
-import React from "react";
-
 interface TabsProps {
   tabData: { tabName: string; onClick?: any; active?: boolean }[];
 }
@@ -7,13 +5,13 @@ interface TabsProps {
 function renderTab(tabName: string, onClick?: any, active?: boolean) {
   if (active) {
     return (
-      <a onClick={onClick} className="p-4 text-lg font-bold -mb-px border-b-2 border-current text-primary cursor-pointer">
+      <a key={tabName} onClick={onClick} className="p-4 text-lg font-bold -mb-px border-b-2 border-current text-primary cursor-pointer">
         {tabName}
       </a>
     );
   }
   return (
-    <a onClick={onClick} className="p-4 text-lg font-bold -mb-px border-b border-transparent text-gray-400 hover:text-primary cursor-pointer">
+    <a key={tabName} onClick={onClick} className="p-4 text-lg font-bold -mb-px border-b border-transparent text-gray-400 hover:text-primary cursor-pointer">
       {tabName}
     </a>
   );

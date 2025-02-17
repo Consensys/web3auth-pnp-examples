@@ -1,62 +1,33 @@
-import { CustomChainConfig, WALLET_ADAPTERS } from "@web3auth/base";
-import { useWeb3Auth } from "@web3auth/modal-react-hooks";
-import React, { JSX, useEffect, useState } from "react";
+import { UserInfo, WALLET_ADAPTERS } from "@web3auth/base";
+import { JSX, useEffect, useState } from "react";
+import { formatEther } from 'viem'
 
-import Dropdown from "../components/DropDown";
-import { usePlayground } from "../services/playground";
+import { web3AuthInstance } from '../services/wagmi';
+
+import { useAccount, useBalance, useSwitchChain } from "wagmi";
 
 interface AccountDetailsProps {
   children?: JSX.Element | JSX.Element[];
 }
 
 function AccountDetails({ children }: AccountDetailsProps) {
-  const {
-    address,
-    balance,
-    getUserInfo,
-    updateConnectedChain,
-    connectedChain,
-    isLoading,
-    chainList,
-    switchChain,
-    getChainId,
-    chainListOptionSelected,
-  } = usePlayground();
-  const { userInfo, web3Auth, isConnected } = useWeb3Auth();
+  const { isConnected, address, chain } = useAccount();
+  const { data, isFetched, isSuccess } = useBalance({ address });
+  const [userInfo, setUserInfo] = useState<Partial<UserInfo> | undefined>(undefined);
   const [addressToShow, setAddressToShow] = useState<string>(address || "");
-  const [selectedChain, setSelectedChain] = useState<string>(Object.keys(chainList)[0]);
-  const [chainDetails, setChainDetails] = useState<CustomChainConfig>(chainList[selectedChain]);
 
   useEffect(() => {
-    setAddressToShow(address || "");
-    setChainDetails(chainList[selectedChain]);
-  }, [selectedChain, address]);
-
-  // const handleSubmit = async (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   console.log(chainDetails);
-  // };
+    if (isConnected && web3AuthInstance.connected) {
+      web3AuthInstance.getUserInfo().then((result) => {
+        setUserInfo(result);
+      })
+    }
+  }, [isConnected]);
 
   return (
     <div className="py-16 w-11/12 px-4 sm:px-6 lg:px-8 z-0">
       <div className="flex flex-col space-y-2 md:flex-row md:justify-between md:space-y-0">
         <h1 className="text-lg font-bold text-gray-400">Your Account Details</h1>
-        <Dropdown
-          rounded
-          options={[...Object.keys(chainList)]}
-          selectedOption={chainListOptionSelected}
-          displayOptions={Object.keys(chainList).map(function (k) {
-            return chainList[k].displayName;
-          })}
-          onChange={async (option) => {
-            if ((await getChainId()) !== chainList[option].chainId) {
-              console.log(option);
-              await switchChain(chainList[option]);
-            }
-            updateConnectedChain(option);
-            setSelectedChain(option);
-          }}
-        />
       </div>
       <div className="md:p-8 p-4 mt-6 space-y-4 rounded-lg bg-dark overflow-hidden w-full">
         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0">
@@ -68,14 +39,14 @@ function AccountDetails({ children }: AccountDetailsProps) {
           )}
           {!(userInfo?.profileImage || userInfo?.name) && (
             <span className="flex justify-center items-center bg-primary font-bold w-24 h-24 rounded-lg text-[80px] text-secondary">
-              {web3Auth.connectedAdapterName.charAt(0).toUpperCase()}
+              {web3AuthInstance.connectedAdapterName?.charAt(0).toUpperCase()}
             </span>
           )}
           <div className="space-y-2 md:space-y-0 md:pl-8 flex flex-col justify-between">
-            {isConnected && web3Auth.connectedAdapterName === WALLET_ADAPTERS.AUTH ? (
+            {isConnected && web3AuthInstance.connectedAdapterName === WALLET_ADAPTERS.AUTH ? (
               <span className="text-xl md:text-2xl text-white font-bold w-fit">{userInfo?.name}</span>
             ) : (
-              <span className="text-xl md:text-2xl text-white font-bold w-fit">{`Connected to ${web3Auth.connectedAdapterName[0].toUpperCase()}${web3Auth.connectedAdapterName.slice(1).replace(/-/g, " ")}`}</span>
+              <span className="text-xl md:text-2xl text-white font-bold w-fit">{`Connected to ${web3AuthInstance.connectedAdapterName?.[0].toUpperCase()}${web3AuthInstance.connectedAdapterName?.slice(1).replace(/-/g, " ")}`}</span>
             )}
             <div
               className="w-fit text-[8px] sm:text-sm bg-gray-100 text-gray-600 p-1 pl-3 pr-3 rounded-full z-0 flex flex-row justify-between space-x-4 items-center cursor-pointer"
@@ -99,66 +70,23 @@ function AccountDetails({ children }: AccountDetailsProps) {
             </div>
           </div>
         </div>
-        {/* {isConnected && web3Auth.connectedAdapterName === WALLET_ADAPTERS.AUTH && (
-          <button className="w-full p-4 text-sm border-gray-200 rounded-lg shadow-sm text-white" onClick={getUserInfo}>
-            View User Info in Console
-          </button>
-        )} */}
       </div>
       <div className="p-8 mt-6 mb-0 rounded-lg bg-dark flex flex-row justify-between flex-wrap">
         <div className="p-2 flex flex-col space-y-4">
           <span className="text-sm text-white">Wallet Balance</span>
-          <div className="flex flex-row space-x-1 items-start text-white">
-            <span className="text-2xl font-bold">{balance}</span>
-            <span className="p-1 text-sm font-medium">{connectedChain?.ticker || ""}</span>
-          </div>
+          {isFetched && isSuccess && (
+            <div className="flex flex-row space-x-1 items-start text-white">
+              <span className="text-2xl font-bold">{formatEther(data.value)}</span>
+              <span className="p-1 text-sm font-medium">{data?.symbol}</span>
+            </div>
+          )}
         </div>
         <div className="p-2 flex flex-col space-y-4 text-white">
           <span className="text-sm">Chain ID</span>
-          <span className="text-2xl font-bold">{parseInt(connectedChain?.chainId, 16) || ""}</span>
+          <span className="text-2xl font-bold">{chain.id || ""}</span>
         </div>
       </div>
 
-      {/* <div className="p-8 mt-6 rounded-lg bg-dark flex flex-col space-y-4 text-white">
-        <h2 className="text-lg font-bold">Use Custom Chain Config</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {Object.entries(chainDetails).map(
-            ([field, value], index) =>
-              field !== "chainNamespace" && (
-                <div key={index} className="flex items-center space-x-2">
-                  <label htmlFor={field} className="text-sm min-w-[120px]">
-                    {field[0].toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")}:
-                  </label>
-                  <input
-                    type="text"
-                    id={field}
-                    value={(value as string) || ""}
-                    onChange={(e) => setChainDetails({ ...chainDetails, [field]: e.target.value })}
-                    className="form-input flex-1 bg-transparent border-b rounded-full border-gray-400 text-white focus:border-primary focus:outline-hidden"
-                  />{" "}
-                </div>
-              )
-          )}
-          {isLoading ? (
-            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path
-                className="opacity-75"
-                fill="#F5E17A"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-          ) : (
-            <button
-              type="submit"
-              className="flex flex-row rounded-full px-6 py-3 text-black justify-center items-center cursor-pointer bg-primary hover:bg-secondary"
-              onClick={() => switchChain(chainDetails)}
-            >
-              Change Network Config
-            </button>
-          )}
-        </form>
-      </div> */}
 
       {children}
     </div>

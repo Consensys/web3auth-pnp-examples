@@ -1,14 +1,11 @@
-import { useWeb3Auth } from "@web3auth/modal-react-hooks";
-import React from "react";
-
 import AccountDetails from "../components/AccountDetails";
-import Console from "../components/Console";
 import Header from "../components/Header";
 import NotConnectedPage from "../components/NotConnectedPage";
 import Sidebar from "../components/Sidebar";
+import { useIsConnected } from "../hooks/isConnected";
 
 function HomePage() {
-  const { isConnected } = useWeb3Auth();
+  const { isConnected } = useIsConnected();
 
   return (
     <main className="flex flex-col h-screen z-0">

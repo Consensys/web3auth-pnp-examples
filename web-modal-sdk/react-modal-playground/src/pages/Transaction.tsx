@@ -1,23 +1,47 @@
-import { useWeb3Auth } from "@web3auth/modal-react-hooks";
-import React, { useState } from "react";
+import { useCallback, useState } from "react";
 
-import Console from "../components/Console";
 import Form from "../components/Form";
 import Header from "../components/Header";
 import NotConnectedPage from "../components/NotConnectedPage";
 import Sidebar from "../components/Sidebar";
 import Tabs from "../components/Tabs";
-import { usePlayground } from "../services/playground";
+import { useAccount, useSendTransaction, useSignMessage } from "wagmi";
+import { Address, parseEther } from "viem";
+import { useIsConnected } from "../hooks/isConnected";
 
 function Transaction() {
-  const { getSignature, sendTransaction } = usePlayground();
-  const { isConnected } = useWeb3Auth();
+  const { isConnected } = useIsConnected();
+  const { sendTransactionAsync } = useSendTransaction()
+  const { signMessageAsync } = useSignMessage()
+  const { address: userAddress } = useAccount()
 
   const [message, setMessage] = useState("Welcome to WLFI");
   const [address, setAddress] = useState("0xe9962bF08A23C5Bf7967bd59CB35C95E24fB6ce0");
   const [amount, setAmount] = useState("0.0001");
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("sendTransaction");
+
+  const handleSendTransaction = useCallback(async (to: Address, value: string) => {
+    console.log("handleSendTransaction", 'start');
+    setLoading(true);
+    const result = await sendTransactionAsync({
+      to,
+      value: parseEther(value),
+    });
+    alert(`Transaction: ${result}`);
+    setLoading(false);
+    console.log("handleSendTransaction", 'end');
+  }, [sendTransactionAsync]);
+
+  const handleSignMessage = useCallback(async (message: string) => {
+    setLoading(true);
+    const signature = await signMessageAsync({
+      account: userAddress,
+      message,
+    });
+    alert(`Signature: ${signature}`);
+    setLoading(false);
+  }, [signMessageAsync]);
 
   const LoaderButton = ({ ...props }) => (
     <button {...props} disabled={loading}>
@@ -83,11 +107,7 @@ function Transaction() {
                 <Form formDetails={formDetailsSignMessage}>
                   <LoaderButton
                     className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3 text-black bg-primary hover:bg-secondary"
-                    onClick={async () => {
-                      setLoading(true);
-                      await getSignature(message);
-                      setLoading(false);
-                    }}
+                    onClick={async () => handleSignMessage(message)}
                   >
                     Sign Message
                   </LoaderButton>
@@ -96,17 +116,12 @@ function Transaction() {
                 <Form formDetails={formDetailsDestinationAddress}>
                   <LoaderButton
                     className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3 text-black bg-primary hover:bg-secondary"
-                    onClick={async () => {
-                      setLoading(true);
-                      await sendTransaction(amount, address);
-                      setLoading(false);
-                    }}
+                    onClick={async () => handleSendTransaction(address as Address, amount)}
                   >
                     Send Transaction
                   </LoaderButton>
                 </Form>
               )}
-              <Console />
             </div>
           </>
         ) : (

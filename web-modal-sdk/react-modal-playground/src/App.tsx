@@ -1,31 +1,32 @@
 import "./App.css";
-
-import { Web3AuthProvider } from "@web3auth/modal-react-hooks";
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Contract from "./pages/Contract";
+import { wagmiConfig } from './services/wagmi'
 import HomePage from "./pages/HomePage";
-// import NFT from "./pages/NFT";
 import Transaction from "./pages/Transaction";
-import { Playground } from "./services/playground";
-import web3AuthContextConfig from "./services/web3authContext";
+import { Reconnect } from "./components/Reconnect";
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
     <div>
-      <Web3AuthProvider config={web3AuthContextConfig}>
-        <Playground>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/">
-                <Route index element={<HomePage />} />
-                <Route path="contract" element={<Contract />} />
-                <Route path="transaction" element={<Transaction />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </Playground>
-      </Web3AuthProvider>
+      <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
+        <QueryClientProvider client={queryClient}>
+          <Reconnect>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/">
+                  <Route index element={<HomePage />} />
+                  <Route path="transaction" element={<Transaction />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </Reconnect>
+        </QueryClientProvider>
+      </WagmiProvider>
     </div>
   );
 }

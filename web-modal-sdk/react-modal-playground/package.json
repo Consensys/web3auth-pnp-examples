@@ -10,12 +10,11 @@
     "@walletconnect/utils": "^2.16.2",
     "@web3auth/auth-adapter": "^9.6.0",
     "@web3auth/base": "^9.6.0",
-    "@web3auth/default-evm-adapter": "^9.6.0",
     "@web3auth/ethereum-provider": "^9.6.0",
     "@web3auth/modal": "^9.6.0",
+    "@web3auth/web3auth-wagmi-connector": "^7.0.0",
+    "@web3auth/account-abstraction-provider": "^9.6.0",
     "@web3auth/modal-react-hooks": "^9.6.0",
-    "@web3auth/solana-provider": "^9.6.0",
-    "@web3auth/wallet-services-plugin-react-hooks": "^9.6.1",
     "ethers": "^6.13.2",
     "hamburger-react": "^2.5.1",
     "jose": "^5.9.2",
@@ -25,6 +24,7 @@
     "react-json-formatter": "^0.4.0",
     "react-router-dom": "^6.26.2",
     "vite": "^5.4.8",
+    "wagmi": "^2.14.11",
     "web3": "^4.13.0"
   },
   "optionalDependencies": {

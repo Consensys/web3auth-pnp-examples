@@ -64,7 +64,7 @@ export function getWeb3AuthConnectorInstance(chains: Chain[]) {
       clientId,
       uxMode: UX_MODE.REDIRECT,
       mfaSettings: {
-        passwordFactor: {
+        passkeysFactor: {
           enable: true,
           mandatory: true,
           priority: 1,
@@ -74,13 +74,12 @@ export function getWeb3AuthConnectorInstance(chains: Chain[]) {
           mandatory: true,
           priority: 2,
         },
-        passkeysFactor: {
-          enable: true,
+        passwordFactor: {
+          enable: false,
           mandatory: false,
-          priority: 3,
         },
         authenticatorFactor: {
-          enable: true,
+          enable: false,
           mandatory: false,
         },
         deviceShareFactor: {

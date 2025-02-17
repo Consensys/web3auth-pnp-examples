@@ -114,19 +114,25 @@ const ethersWeb3Provider = (provider: IProvider | null, uiConsole: (...args: unk
   };
 
   const deployContract = async (contractABI: string, contractByteCode: string, initValue: string): Promise<any> => {
+    console.log('deployContract');
     try {
       const ethersProvider = new ethers.BrowserProvider(provider as any);
+      console.log('deployContract 1');
 
       const signer = await ethersProvider.getSigner();
+      console.log('deployContract 1', signer.address);
       const factory = new ContractFactory(JSON.parse(contractABI), contractByteCode, signer);
+      console.log('deployContract 2');
 
       // Deploy contract with "Hello World!" in the constructor and wait to finish
       const contract = await factory.deploy(initValue);
       uiConsole("Contract:", contract);
       uiConsole(`Deploying Contract at Target: ${contract.target}, waiting for confirmation...`);
+      console.log('deployContract 3');
 
       const receipt = await contract.waitForDeployment();
       uiConsole("Contract Deployed. Receipt:", receipt);
+      console.log('deployContract 4');
 
       return receipt;
     } catch (error: any) {

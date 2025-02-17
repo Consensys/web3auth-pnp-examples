@@ -6,7 +6,6 @@ import Form from "../components/Form";
 import Header from "../components/Header";
 import NotConnectedPage from "../components/NotConnectedPage";
 import Sidebar from "../components/Sidebar";
-// import SourceCode from "../components/SourceCode";
 import Tabs from "../components/Tabs";
 import ABI from "../config/ABI.json";
 import { usePlayground } from "../services/playground";
@@ -163,7 +162,6 @@ function Contract() {
               ) : null}
 
               <Console />
-              {/*       <SourceCode /> */}
             </div>
           </>
         ) : (

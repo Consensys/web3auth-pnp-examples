@@ -6,7 +6,6 @@ import Console from "../components/Console";
 import Header from "../components/Header";
 import NotConnectedPage from "../components/NotConnectedPage";
 import Sidebar from "../components/Sidebar";
-// import SourceCode from "../components/SourceCode";
 
 function HomePage() {
   const { isConnected } = useWeb3Auth();
@@ -20,8 +19,6 @@ function HomePage() {
             <Sidebar />
             <div className="w-full h-full flex flex-1 flex-col items-center justify-flex-start overflow-y-auto">
               <AccountDetails />
-              {/* <Console /> */}
-              {/*     <SourceCode /> */}
             </div>
           </>
         ) : (

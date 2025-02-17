@@ -1,8 +1,9 @@
 import { useAccount } from "wagmi";
-import ConnectButton from "./ConnectButton";
+import { ConnectButton } from "./ConnectButton";
+import { useIsConnected } from "../hooks/useIsConnected";
 
 const NotConnectedPage = () => {
-  const { isConnecting } = useAccount();
+  const { isConnecting } = useIsConnected();
 
   return (
     <div className="w-full h-full flex flex-1 flex-col bg-black items-center justify-center p-4">

@@ -2,9 +2,9 @@ import AccountDetails from "../components/AccountDetails";
 import Header from "../components/Header";
 import NotConnectedPage from "../components/NotConnectedPage";
 import Sidebar from "../components/Sidebar";
-import { useIsConnected } from "../hooks/isConnected";
+import { useIsConnected } from "../hooks/useIsConnected";
 
-function HomePage() {
+export function HomePage() {
   const { isConnected } = useIsConnected();
 
   return (
@@ -25,5 +25,3 @@ function HomePage() {
     </main>
   );
 }
-
-export default HomePage;

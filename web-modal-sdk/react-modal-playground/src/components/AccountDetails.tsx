@@ -2,23 +2,23 @@ import { UserInfo, WALLET_ADAPTERS } from "@web3auth/base";
 import { JSX, useEffect, useState } from "react";
 import { formatEther } from 'viem'
 
-import { web3AuthInstance } from '../services/wagmi';
-
 import { useAccount, useBalance, useSwitchChain } from "wagmi";
+import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 interface AccountDetailsProps {
   children?: JSX.Element | JSX.Element[];
 }
 
 function AccountDetails({ children }: AccountDetailsProps) {
+  const { web3Auth } = useWeb3Auth();
   const { isConnected, address, chain } = useAccount();
   const { data, isFetched, isSuccess } = useBalance({ address });
   const [userInfo, setUserInfo] = useState<Partial<UserInfo> | undefined>(undefined);
   const [addressToShow, setAddressToShow] = useState<string>(address || "");
 
   useEffect(() => {
-    if (isConnected && web3AuthInstance.connected) {
-      web3AuthInstance.getUserInfo().then((result) => {
+    if (isConnected && web3Auth.connected) {
+      web3Auth.getUserInfo().then((result) => {
         setUserInfo(result);
       })
     }
@@ -39,14 +39,14 @@ function AccountDetails({ children }: AccountDetailsProps) {
           )}
           {!(userInfo?.profileImage || userInfo?.name) && (
             <span className="flex justify-center items-center bg-primary font-bold w-24 h-24 rounded-lg text-[80px] text-secondary">
-              {web3AuthInstance.connectedAdapterName?.charAt(0).toUpperCase()}
+              {web3Auth.connectedAdapterName?.charAt(0).toUpperCase()}
             </span>
           )}
           <div className="space-y-2 md:space-y-0 md:pl-8 flex flex-col justify-between">
-            {isConnected && web3AuthInstance.connectedAdapterName === WALLET_ADAPTERS.AUTH ? (
+            {isConnected && web3Auth.connectedAdapterName === WALLET_ADAPTERS.AUTH ? (
               <span className="text-xl md:text-2xl text-white font-bold w-fit">{userInfo?.name}</span>
             ) : (
-              <span className="text-xl md:text-2xl text-white font-bold w-fit">{`Connected to ${web3AuthInstance.connectedAdapterName?.[0].toUpperCase()}${web3AuthInstance.connectedAdapterName?.slice(1).replace(/-/g, " ")}`}</span>
+              <span className="text-xl md:text-2xl text-white font-bold w-fit">{`Connected to ${web3Auth.connectedAdapterName?.[0].toUpperCase()}${web3Auth.connectedAdapterName?.slice(1).replace(/-/g, " ")}`}</span>
             )}
             <div
               className="w-fit text-[8px] sm:text-sm bg-gray-100 text-gray-600 p-1 pl-3 pr-3 rounded-full z-0 flex flex-row justify-between space-x-4 items-center cursor-pointer"
@@ -76,7 +76,7 @@ function AccountDetails({ children }: AccountDetailsProps) {
           <span className="text-sm text-white">Wallet Balance</span>
           {isFetched && isSuccess && (
             <div className="flex flex-row space-x-1 items-start text-white">
-              <span className="text-2xl font-bold">{formatEther(data.value)}</span>
+              <span className="text-2xl font-bold">{formatEther(data.value).slice(0, 5)}</span>
               <span className="p-1 text-sm font-medium">{data?.symbol}</span>
             </div>
           )}

@@ -1,18 +1,17 @@
 import { useEffect } from "react";
-import { useAccount, useConnect, useReconnect } from "wagmi";
+import { useConnect } from "wagmi";
 
-import { web3AuthInstance } from '../services/wagmi';
+import { useIsConnected } from "../hooks/useIsConnected";
 
 export const Reconnect = ({ children }: React.PropsWithChildren) => {
-  const { isConnected } = useAccount();
+  const { wagmiIsConnected, web3AuthIsConnected } = useIsConnected()
   const { connect, connectors } = useConnect()
 
   useEffect(() => {
-    console.log('Reconnect', isConnected, web3AuthInstance.connected);
-    if (!isConnected) {
-      // connect({ connector: connectors[0] });
+    if (!wagmiIsConnected && web3AuthIsConnected) {
+      connect({ connector: connectors[0] });
     }
-  }, [isConnected]);
+  }, [wagmiIsConnected, web3AuthIsConnected]);
 
   return (
     <div>

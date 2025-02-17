@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import wlfiLogo from "../assets/wlfiLogo.png";
-import DisconnectWeb3AuthButton from "./DisconnectButton";
+import { DisconnectButton } from "./DisconnectButton";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const Header = () => {
             </div>
           </div>
           <div className="flex-col flex-row mt-0 items-center lg:flex">
-            <DisconnectWeb3AuthButton />
+            <DisconnectButton />
           </div>
         </div>
       </div>

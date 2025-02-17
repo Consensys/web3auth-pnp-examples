@@ -1,7 +1,7 @@
 import { useConnect } from "wagmi";
-import { useIsConnected } from "../hooks/isConnected";
+import { useIsConnected } from "../hooks/useIsConnected";
 
-const ConnectButton = () => {
+export const ConnectButton = () => {
   const { isConnected } = useIsConnected();
   const { connect, connectors } = useConnect();
 
@@ -18,4 +18,3 @@ const ConnectButton = () => {
     </div>
   );
 };
-export default ConnectButton;

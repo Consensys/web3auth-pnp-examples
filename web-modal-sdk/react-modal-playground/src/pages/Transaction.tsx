@@ -7,9 +7,10 @@ import Sidebar from "../components/Sidebar";
 import Tabs from "../components/Tabs";
 import { useAccount, useSendTransaction, useSignMessage } from "wagmi";
 import { Address, parseEther } from "viem";
-import { useIsConnected } from "../hooks/isConnected";
+import { useIsConnected } from "../hooks/useIsConnected";
+import { LoaderButton } from "../components/LoaderButton";
 
-function Transaction() {
+export function Transaction() {
   const { isConnected } = useIsConnected();
   const { sendTransactionAsync } = useSendTransaction()
   const { signMessageAsync } = useSignMessage()
@@ -42,22 +43,6 @@ function Transaction() {
     alert(`Signature: ${signature}`);
     setLoading(false);
   }, [signMessageAsync]);
-
-  const LoaderButton = ({ ...props }) => (
-    <button {...props} disabled={loading}>
-      {loading && (
-        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-      )}
-      {props.children}
-    </button>
-  );
 
   const formDetailsSignMessage = [
     {
@@ -101,13 +86,13 @@ function Transaction() {
           <>
             <Sidebar />
             <div className=" w-full h-full flex flex-1 flex-col items-center justify-flex-start overflow-y-auto">
-              <h1 className="w-11/12 px-4 pt-16 pb-8 sm:px-6 lg:px-8 text-2xl font-bold text-center sm:text-3xl text-white">Signing/ Transaction</h1>
               <Tabs tabData={TabData} />
               {tab === "signMessage" ? (
                 <Form formDetails={formDetailsSignMessage}>
                   <LoaderButton
                     className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3 text-black bg-primary hover:bg-secondary"
                     onClick={async () => handleSignMessage(message)}
+                    loading={loading}
                   >
                     Sign Message
                   </LoaderButton>
@@ -117,6 +102,7 @@ function Transaction() {
                   <LoaderButton
                     className="w-full mt-10 mb-0 text-center justify-center items-center flex rounded-full px-6 py-3 text-black bg-primary hover:bg-secondary"
                     onClick={async () => handleSendTransaction(address as Address, amount)}
+                    loading={loading}
                   >
                     Send Transaction
                   </LoaderButton>
@@ -131,5 +117,3 @@ function Transaction() {
     </main>
   );
 }
-
-export default Transaction;

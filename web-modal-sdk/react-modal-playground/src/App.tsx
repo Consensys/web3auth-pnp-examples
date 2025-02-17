@@ -4,9 +4,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { wagmiConfig } from './services/wagmi'
-import HomePage from "./pages/HomePage";
-import Transaction from "./pages/Transaction";
+import { HomePage } from "./pages/HomePage";
+import { Transaction } from "./pages/Transaction";
 import { Reconnect } from "./components/Reconnect";
+import { NFTList } from "./pages/NFTList";
 
 const queryClient = new QueryClient()
 
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/">
                   <Route index element={<HomePage />} />
                   <Route path="transaction" element={<Transaction />} />
+                  <Route path="nft" element={<NFTList />} />
                 </Route>
               </Routes>
             </BrowserRouter>

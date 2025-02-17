@@ -1,7 +1,7 @@
 import { useDisconnect } from "wagmi";
-import { useIsConnected } from "../hooks/isConnected";
+import { useIsConnected } from "../hooks/useIsConnected";
 
-const DisconnectButton = () => {
+export const DisconnectButton = () => {
   const { isConnected } = useIsConnected();
   const { disconnect } = useDisconnect()
 
@@ -17,4 +17,3 @@ const DisconnectButton = () => {
   }
   return null;
 };
-export default DisconnectButton;

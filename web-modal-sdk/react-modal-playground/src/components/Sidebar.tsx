@@ -12,6 +12,9 @@ const Sidebar = () => {
   function goToTransaction() {
     navigate("/transaction");
   }
+  function goToNFT() {
+    navigate("/nft");
+  }
 
   const goToExplorer = useCallback(() => {
     window.open(`${chain.blockExplorers.default.url}/address/${address}#internaltx`);
@@ -39,7 +42,8 @@ const Sidebar = () => {
         <strong className="px-4 block p-1 text-xs font-medium text-gray-400 uppercase">MENU</strong>
         <nav className="flex flex-col mt-6">
           {location.pathname === "/" ? activePage("My Account", 1) : linktoGo("My Account", goToHome, 1)}
-          {location.pathname === "/transaction" ? activePage("Signing/ Transaction", 2) : linktoGo("Signing/ Transaction", goToTransaction, 2)}
+          {location.pathname === "/nft" ? activePage("NFT", 2) : linktoGo("NFT", goToNFT, 2)}
+          {location.pathname === "/transaction" ? activePage("Signing/ Transaction", 3) : linktoGo("Signing/ Transaction", goToTransaction, 3)}
 
           {linktoGo("Verify on Etherscan", goToExplorer, 9)}
         </nav>

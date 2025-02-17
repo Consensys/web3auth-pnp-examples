@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import NotConnectedPage from "../components/NotConnectedPage";
 import { useIsConnected } from "../hooks/useIsConnected";
-import { useAccount, usePublicClient, useReadContract, useWriteContract } from "wagmi";
+import { useAccount, usePublicClient, useWriteContract } from "wagmi";
 import { Address, erc721Abi } from "viem";
 import { fakeErc721Abi } from "../abis/fakeErc721.abi";
 import { LoaderButton } from "../components/LoaderButton";
@@ -18,7 +18,7 @@ type Metadata = {
   image: string;
 }
 
-const collectionAddress: Address = "0x31F8dB8178e4a1f390C895d4B465bfDB68a06a87";
+const collectionAddress: Address = import.meta.env.VITE_NFT_ADDRESS;
 const ipfsGatewayUrl = "https://ipfs.io/ipfs/";
 
 export function NFTList() {

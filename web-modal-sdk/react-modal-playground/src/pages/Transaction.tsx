@@ -23,7 +23,6 @@ export function Transaction() {
   const [tab, setTab] = useState("sendTransaction");
 
   const handleSendTransaction = useCallback(async (to: Address, value: string) => {
-    console.log("handleSendTransaction", 'start');
     setLoading(true);
     const result = await sendTransactionAsync({
       to,
@@ -31,7 +30,6 @@ export function Transaction() {
     });
     alert(`Transaction: ${result}`);
     setLoading(false);
-    console.log("handleSendTransaction", 'end');
   }, [sendTransactionAsync]);
 
   const handleSignMessage = useCallback(async (message: string) => {

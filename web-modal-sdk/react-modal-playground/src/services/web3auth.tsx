@@ -95,76 +95,10 @@ export function getWeb3AuthConnectorInstance(chains: Chain[]) {
   });
   web3AuthInstance.configureAdapter(authAdapter)
 
-  // const modalConfig = {
-  //   [WALLET_ADAPTERS.AUTH]: {
-  //     label: "openlogin",
-  //     loginMethods: {
-  //       [LOGIN_PROVIDER.GOOGLE]: {
-  //         name: `${LOGIN_PROVIDER.GOOGLE} login`,
-  //         showOnModal: true,
-  //       },
-  //       [LOGIN_PROVIDER.FACEBOOK]: {
-  //         name: `${LOGIN_PROVIDER.FACEBOOK} login`,
-  //         showOnModal: true,
-  //       },
-  //       [LOGIN_PROVIDER.REDDIT]: {
-  //         name: `${LOGIN_PROVIDER.REDDIT} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.DISCORD]: {
-  //         name: `${LOGIN_PROVIDER.DISCORD} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.TWITCH]: {
-  //         name: `${LOGIN_PROVIDER.TWITCH} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.APPLE]: {
-  //         name: `${LOGIN_PROVIDER.APPLE} login`,
-  //         showOnModal: true,
-  //       },
-  //       [LOGIN_PROVIDER.LINE]: {
-  //         name: `${LOGIN_PROVIDER.LINE} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.GITHUB]: {
-  //         name: `${LOGIN_PROVIDER.GITHUB} login`,
-  //         showOnModal: true,
-  //       },
-  //       [LOGIN_PROVIDER.KAKAO]: {
-  //         name: `${LOGIN_PROVIDER.KAKAO} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.LINKEDIN]: {
-  //         name: `${LOGIN_PROVIDER.LINKEDIN} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.TWITTER]: {
-  //         name: `${LOGIN_PROVIDER.TWITTER} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.WEIBO]: {
-  //         name: `${LOGIN_PROVIDER.WEIBO} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.WECHAT]: {
-  //         name: `${LOGIN_PROVIDER.WECHAT} login`,
-  //         showOnModal: false,
-  //       },
-  //       [LOGIN_PROVIDER.FARCASTER]: {
-  //         name: `${LOGIN_PROVIDER.FARCASTER} login`,
-  //         showOnModal: false,
-  //       },
-  //     },
-  //     showOnModal: true,
-  //   },
-  // }
-
   const web3AuthConnector = Web3AuthConnector({
     id: 'web3auth',
     name: 'Web3Auth',
     web3AuthInstance,
-    // modalConfig,
   });
 
   return { web3AuthConnector, web3AuthInstance };
